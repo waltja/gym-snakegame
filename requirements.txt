@@ -1,0 +1,6 @@
+ray
+certifi
+setuptools
+numpy
+pygame
+gymnasium
