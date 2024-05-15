@@ -46,7 +46,7 @@ analysis = tune.run(
         "log_level": "INFO",
         "seed": 42,
         "kl_coeff": 1.0,
-        "num_gpus": 0,
+        "num_gpus": 1,
         "observation_filter": "MeanStdFilter",
         "model": {
             "fcnet_hiddens": [32, 32],
@@ -63,8 +63,10 @@ analysis = tune.run(
     mode="max"
 )
 
+result = analysis.get_best_config()
+
 config = PPOConfig()
-config = config.from_dict(analysis.best_config)
+config = config.from_dict(result)
 config = config.resources(num_gpus=0)
 config = config.env_runners(num_env_runners=4)
 
