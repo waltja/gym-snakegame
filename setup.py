@@ -10,9 +10,10 @@ setup(
     license="MIT License",
     python_requires=">=3.9",
     install_requires=[
-        "numpy>=1.21.0",
-        "pygame>=2.1.3",
-        "gymnasium>=1.0.0a1",
-        "moviepy>=1.0.0",
+        "numpy",
+        "pygame",
+        "gymnasium",
+        "moviepy",
+        "ray",
     ],
 )

@@ -1,6 +1,7 @@
-ray
+ray~=2.20.0
 certifi
-setuptools
-numpy
-pygame
-gymnasium
+setuptools~=65.5.1
+numpy~=1.26.4
+pygame~=2.5.2
+gymnasium~=0.29.1
+torch~=2.3.0
