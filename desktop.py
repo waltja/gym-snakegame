@@ -7,6 +7,7 @@ from ray.tune import sample_from, Trainable
 from ray.tune.registry import register_env
 from ray.tune.schedulers.pb2 import PB2
 import ray.tune.tune
+from tune import Trial
 
 from gym_snakegame.envs import SnakeGameEnv
 
@@ -65,11 +66,9 @@ analysis = tune.run(
 
 result = analysis.get_best_config()
 
-config = PPOConfig()
-config = config.from_dict(result)
-config = config.resources(num_gpus=0)
-config = config.env_runners(num_env_runners=4)
-
-# Build a Algorithm object from the config and run 1 training iteration.
-algo = config.build(env="snake_game")
+algo = (PPOConfig()
+        .env_runners(num_env_runners=4)
+        .resources(num_gpus=0)
+        .environment(env="snake_game")
+        ).build().from_checkpoint(analysis.get_best_checkpoint(analysis.get_best_trial()))
 algo.train()
