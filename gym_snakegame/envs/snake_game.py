@@ -12,17 +12,17 @@ class SnakeGameEnv(gym.Env):
         "render_fps": 20,
     }
 
-    def __init__(self, render_mode='human', n_channel=1, board_size=10, n_target=1):
+    def __init__(self, render_mode=None, n_channel=1, board_size=10, n_target=1):
         assert board_size >= 5
         assert n_target > 0
         assert n_channel in (1, 2, 4)
 
         self.BLANK = 0
-        self.ITEM = (board_size ** 2) + 1
+        self.ITEM = board_size**2 + 1
         self.HEAD = 1
         self.n_channel = n_channel
 
-        self.color_gradient = (255 - 100) / (board_size ** 2)
+        self.color_gradient = (255 - 100) / (board_size**2)
 
         self.board_size = board_size  # The size of the square grid
         self.window_width = 600  # The size of the PyGame window
@@ -38,9 +38,10 @@ class SnakeGameEnv(gym.Env):
         )
         self.action_space = spaces.Discrete(4)
         self._action_to_direction = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
-        # initialize
+        # initialzie
         self.snake = deque()
-        self.board = np.zeros((self.board_size, self.board_size), dtype=np.float32)
+        self.board = np.zeros((self.board_size, self.board_size), dtype=np.uint32)
+
         self.render_mode = render_mode
         self.window = None
         self.clock = None
@@ -147,7 +148,7 @@ class SnakeGameEnv(gym.Env):
                 reward = 1
                 self._place_target()
                 self.board[next_head[0], next_head[1]] = 0
-                if len(self.snake) == self.board_size ** 2:
+                if len(self.snake) == self.board_size**2:
                     terminated = True
                 else:
                     terminated = False
@@ -279,12 +280,3 @@ class SnakeGameEnv(gym.Env):
         if self.window is not None:
             pygame.display.quit()
             pygame.quit()
-
-
-if __name__ == "__main__":
-    game = SnakeGameEnv()
-    board, other = game.reset()
-    for line in board:
-        for value in line:
-            print(type(value))
-            print(value)
