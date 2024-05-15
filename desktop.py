@@ -47,7 +47,7 @@ analysis = tune.run(
         "log_level": "INFO",
         "seed": 42,
         "kl_coeff": 1.0,
-        "num_gpus": 1,
+        "num_gpus": 0,
         "observation_filter": "MeanStdFilter",
         "model": {
             "fcnet_hiddens": [32, 32],
