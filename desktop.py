@@ -1,13 +1,14 @@
+import os.path
 import random
 
 import ray
+import torch
 from ray import tune
 from ray.rllib.algorithms import PPO, PPOConfig
 from ray.tune import sample_from, Trainable
 from ray.tune.registry import register_env
 from ray.tune.schedulers.pb2 import PB2
 import ray.tune.tune
-from tune import Trial
 
 from gym_snakegame.envs import SnakeGameEnv
 
@@ -45,7 +46,6 @@ analysis = tune.run(
         "env": "snake_game",
         "reuse_actors": True,
         "log_level": "INFO",
-        "seed": 42,
         "kl_coeff": 1.0,
         "num_gpus": 0,
         "observation_filter": "MeanStdFilter",
@@ -64,11 +64,5 @@ analysis = tune.run(
     mode="max"
 )
 
-result = analysis.get_best_config()
-
-algo = (PPOConfig()
-        .env_runners(num_env_runners=4)
-        .resources(num_gpus=0)
-        .environment(env="snake_game")
-        ).build().from_checkpoint(analysis.get_best_checkpoint(analysis.get_best_trial()))
-algo.train()
+best = analysis.get_best_checkpoint(analysis.get_best_trial())
+print(best)

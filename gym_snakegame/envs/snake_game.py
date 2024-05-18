@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 from collections import deque
 import pygame
@@ -12,7 +14,7 @@ class SnakeGameEnv(gym.Env):
         "render_fps": 20,
     }
 
-    def __init__(self, render_mode=None, n_channel=1, board_size=10, n_target=1):
+    def __init__(self, render_mode=None, n_channel=1, board_size=20, n_target=1):
         assert board_size >= 5
         assert n_target > 0
         assert n_channel in (1, 2, 4)
@@ -139,7 +141,7 @@ class SnakeGameEnv(gym.Env):
             if self.board[next_head[0], next_head[1]] == self.BLANK:
                 self.board[current_tail[0], current_tail[1]] = self.BLANK
                 self.snake.popleft()
-                reward = 0
+                reward = -0.01
                 terminated = False
             # target
             # self.board[next_head[0], next_head[1]] == self.ITEM
